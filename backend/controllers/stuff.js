@@ -12,7 +12,6 @@ exports.createThing = (req, res, next) => {
     dislikes: req.body.dislikes,
     usersLiked: req.body.usersLiked,
     usersDisliked: req.body.usersDisliked,
-    userId: req.body.userId,
   });
   thing
     .save()
@@ -43,12 +42,16 @@ exports.getOneThing = (req, res, next) => {
 };
 exports.modifyThing = (req, res, next) => {
   const thing = new Thing({
-    _id: req.params.id,
-    title: req.body.title,
+    name: req.body.name,
+    manufacturer: req.body.manufacturer,
     description: req.body.description,
+    mainPepper: req.body.mainPepper,
     imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    userId: req.body.userId,
+    heat: req.body.heat,
+    likes: req.body.likes,
+    dislikes: req.body.dislikes,
+    usersLiked: req.body.usersLiked,
+    usersDisliked: req.body.usersDisliked,
   });
   Thing.updateOne({ _id: req.params.id }, thing)
     .then(() => {
