@@ -1,5 +1,5 @@
 const Thing = require("../models/thing");
-
+const fs = require("fs")
 
 
 exports.createThing = (req, res, next) => {
@@ -10,7 +10,7 @@ exports.createThing = (req, res, next) => {
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   });
   thing.save()
-    .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+    .then(() => res.status(201).json({ message: 'product create !'}))
     .catch(error => res.status(400).json({ error }));
 };
 
@@ -27,48 +27,31 @@ exports.getOneThing = (req, res, next) => {
       });
     });
 };
+
 exports.modifyThing = (req, res, next) => {
-  const thing = new Thing({
-    name: req.body.name,
-    manufacturer: req.body.manufacturer,
-    description: req.body.description,
-    mainPepper: req.body.mainPepper,
-    imageUrl: req.body.imageUrl,
-    heat: req.body.heat,
-    likes: req.body.likes,
-    dislikes: req.body.dislikes,
-    usersLiked: req.body.usersLiked,
-    usersDisliked: req.body.usersDisliked,
-  });
-  Thing.updateOne({
-      _id: req.params.id
-    }, thing)
-    .then(() => {
-      res.status(201).json({
-        message: "Thing updated successfully!",
-      });
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
+  const thingObject = req.file ?
+    {
+      ...JSON.parse(req.body.thing),
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : { ...req.body };
+  Thing.updateOne({ _id: req.params.id }, { ...thingObject, _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'product uptdate !'}))
+    .catch(error => res.status(400).json({ error }));
 };
 
+
+
 exports.deleteThing = (req, res, next) => {
-  Thing.deleteOne({
-      _id: req.params.id
-    })
-    .then(() => {
-      res.status(200).json({
-        message: "Deleted!",
+  Thing.findOne({ _id: req.params.id })
+    .then(thing => {
+      const filename = thing.imageUrl.split('/images/')[1];
+      fs.unlink(`images/${filename}`, () => {
+        Thing.deleteOne({ _id: req.params.id })
+          .then(() => res.status(200).json({ message: 'product delete !'}))
+          .catch(error => res.status(400).json({ error }));
       });
     })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
+    .catch(error => res.status(500).json({ error }));
 };
 
 exports.getAllStuff = (req, res, next) => {
