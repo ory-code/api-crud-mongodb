@@ -1,9 +1,11 @@
 const express = require("express");
-const bodyparser = require("body-parser");
+const bodyParser = require("body-parser");
 const app = express();
 const stuffRoutes = require("./routes/stuff");
 const userRoutes = require("./routes/users");
+const path = require("path")
 const mongoose = require("mongoose");
+
 
 mongoose
     .connect(
@@ -28,7 +30,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(bodyparser.json());
+app.use(bodyParser.json())
 
 app.use((req, res, next) => {
     console.log("Requête reçue !");
@@ -37,4 +39,5 @@ app.use((req, res, next) => {
 
 app.use("/api/sauces", stuffRoutes);
 app.use("/api/auth", userRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
 module.exports = app;
