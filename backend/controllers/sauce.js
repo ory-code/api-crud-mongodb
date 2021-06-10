@@ -54,7 +54,7 @@ exports.likeSauce = (req, res, next) => {
           likes: sauce.likes,
           _id: req.params.id,
         }
-      ) //On update notre sauce
+      ) 
         .then(() => res.status(200).json({ message: "Objet modifié !" }))
         .catch((error) => res.status(400).json({ error }));
     })
