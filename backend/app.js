@@ -6,7 +6,8 @@ const userRoutes = require("./routes/users");
 const path = require("path");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
-
+require("dotenv").config()
+console.log(process.env);
 mongoose
   .connect(
     "mongodb+srv://userprojet6:saucepiquante@cluster0.wqhwa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",

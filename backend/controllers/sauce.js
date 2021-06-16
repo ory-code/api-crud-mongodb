@@ -76,6 +76,7 @@ exports.getOneThing = (req, res, next) => {
 };
 
 exports.modifyThing = (req, res, next) => {
+  console.log(req.body);
   const sauceObject = req.file
     ? {
         ...JSON.parse(req.body.sauce),
@@ -88,6 +89,7 @@ exports.modifyThing = (req, res, next) => {
       };
   Sauce.updateOne(
     {
+      userId: req.body.userId,
       _id: req.params.id,
     },
     {
@@ -108,7 +110,9 @@ exports.modifyThing = (req, res, next) => {
 };
 
 exports.deleteThing = (req, res, next) => {
+  console.log(req.body);
   Sauce.findOne({
+    
     _id: req.params.id,
   })
     .then((sauce) => {
@@ -142,7 +146,7 @@ exports.getAllStuff = (req, res, next) => {
       res.status(200).json(sauce);
     })
     .catch((error) => {
-      res.status(400).json({
+      res.status(500).json({
         error: error,
       });
     });
