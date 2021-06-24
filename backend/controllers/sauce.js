@@ -1,7 +1,7 @@
 const Sauce = require("../models/sauce");
 const fs = require("fs");
 
-exports.createThing = (req, res, next) => {
+exports.createSauce = (req, res, next) => {
 
 
 
@@ -63,7 +63,7 @@ exports.likeSauce = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.getOneThing = (req, res, next) => {
+exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({
     _id: req.params.id,
   })
@@ -77,7 +77,7 @@ exports.getOneThing = (req, res, next) => {
     });
 };
 
-exports.modifyThing = (req, res, next) => {
+exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file
     ? {
         ...JSON.parse(req.body.sauce),
@@ -110,7 +110,7 @@ exports.modifyThing = (req, res, next) => {
     );
 };
 
-exports.deleteThing = (req, res, next) => {
+exports.deleteSauce = (req, res, next) => {
   console.log(req.body);
   Sauce.findOne({
     _id: req.params.id,
@@ -140,7 +140,7 @@ exports.deleteThing = (req, res, next) => {
     );
 };
 
-exports.getAllStuff = (req, res, next) => {
+exports.getAllSauce = (req, res, next) => {
   Sauce.find()
     .then((sauce) => {
       res.status(200).json(sauce);
