@@ -2,9 +2,6 @@ const Sauce = require("../models/sauce");
 const fs = require("fs");
 
 exports.createSauce = (req, res, next) => {
-
-
-
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
   const sauce = new Sauce({
@@ -13,6 +10,9 @@ exports.createSauce = (req, res, next) => {
       req.file.filename
     }`,
   });
+  if (!sauceObject || !sauce) {
+    return res.status(400).json({ error: "bad request" });
+  }
   sauce
     .save()
     .then(() =>
@@ -29,7 +29,9 @@ exports.likeSauce = (req, res, next) => {
   const sauceObject = req.body;
   const userId = sauceObject.userId;
   const like = sauceObject.like;
-
+  if (!sauceObject || !userId) {
+    return res.status(400).json({ error: "bad request" });
+  }
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       if (like == 1) {

@@ -7,8 +7,13 @@ exports.signup = (req, res, next) => {
   if (!req.body.password || !req.body.email) {
     return res.status(400).json({ error: "bad request" });
   }
-  const email = CryptoJS.AES.encrypt(req.body.email, CryptoJS.enc.Utf8.parse(process.env.CRYPTO_SECRET_TOKEN),
-  {mode:CryptoJS.mode.ECB,iv: CryptoJS.enc.Utf8.parse(process.env.CRYPTO_IV)}
+  const email = CryptoJS.AES.encrypt(
+    req.body.email,
+    CryptoJS.enc.Utf8.parse(process.env.CRYPTO_SECRET_TOKEN),
+    {
+      mode: CryptoJS.mode.ECB,
+      iv: CryptoJS.enc.Utf8.parse(process.env.CRYPTO_IV),
+    }
   ).toString();
   bcrypt
     .hash(req.body.password, 10)
@@ -26,10 +31,18 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  const email = CryptoJS.AES.encrypt(req.body.email, CryptoJS.enc.Utf8.parse(process.env.CRYPTO_SECRET_TOKEN),
-  {mode:CryptoJS.mode.ECB,iv: CryptoJS.enc.Utf8.parse(process.env.CRYPTO_IV)}
+  if (!req.body.password || !req.body.email) {
+    return res.status(400).json({ error: "bad request" });
+  }
+  const email = CryptoJS.AES.encrypt(
+    req.body.email,
+    CryptoJS.enc.Utf8.parse(process.env.CRYPTO_SECRET_TOKEN),
+    {
+      mode: CryptoJS.mode.ECB,
+      iv: CryptoJS.enc.Utf8.parse(process.env.CRYPTO_IV),
+    }
   ).toString();
-  User.findOne({email:email})
+  User.findOne({ email: email })
     .then((user) => {
       if (!user) {
         return res.status(404).json({ error: "identifiants incorrect !" });
