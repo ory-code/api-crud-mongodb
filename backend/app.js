@@ -6,8 +6,7 @@ const userRoutes = require("./routes/users");
 const path = require("path");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
-require("dotenv").config()
-console.log(process.env);
+require("dotenv").config();
 mongoose
   .connect(
     "mongodb+srv://userprojet6:saucepiquante@cluster0.wqhwa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -33,12 +32,6 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
-
-app.use((req, res, next) => {
-  console.log("Requête reçue !");
-  next();
-});
-
 app.use("/api/sauces", stuffRoutes);
 app.use("/api/auth", userRoutes);
 app.use("/images", express.static(path.join(__dirname, "images")));
