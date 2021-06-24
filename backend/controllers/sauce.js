@@ -60,9 +60,9 @@ exports.likeSauce = (req, res, next) => {
         }
       )
         .then(() => res.status(200).json({ message: "Objet modifié !" }))
-        .catch((error) => res.status(400).json({ error }));
+        .catch((error) => res.status(500).json({ error }));
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(500).json({ error }));
 };
 
 exports.getOneSauce = (req, res, next) => {
@@ -106,7 +106,7 @@ exports.modifySauce = (req, res, next) => {
       })
     )
     .catch((error) =>
-      res.status(400).json({
+      res.status(500).json({
         error,
       })
     );
@@ -129,7 +129,7 @@ exports.deleteSauce = (req, res, next) => {
             })
           )
           .catch((error) =>
-            res.status(400).json({
+            res.status(500).json({
               error,
             })
           );
