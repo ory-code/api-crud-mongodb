@@ -102,7 +102,7 @@ exports.modifySauce = (req, res, next) => {
   )
     .then(() =>
       res.status(200).json({
-        message: "product uptdate !",
+        message: "product update !",
       })
     )
     .catch((error) =>
