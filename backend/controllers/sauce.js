@@ -113,7 +113,6 @@ exports.modifySauce = (req, res, next) => {
 };
 
 exports.deleteSauce = (req, res, next) => {
-  console.log(req.body);
   Sauce.findOne({
     _id: req.params.id,
   })
