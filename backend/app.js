@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 mongoose
   .connect(
-    "mongodb+srv://userprojet6:saucepiquante@cluster0.wqhwa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    process.env.URL_DATA,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
